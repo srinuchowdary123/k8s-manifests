@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: jenkins-containeri
+spec:
+  containers:
+    - image: jenkins/jenkins:lts-jdk11
+      name: jenkinspod
+      ports:
+        - containerPort: 8080
+          hostPort: 8081
+          protocol:   TCP
