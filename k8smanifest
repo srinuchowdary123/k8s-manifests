@@ -1,0 +1,39 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring
+  labels:
+    app: spring
+spec:
+  minReadySeconds: 10
+  replicas: 5
+  selector: 
+    matchLabels: 
+      app: spring
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      name: spring
+      labels:
+        app: spring
+    spec:
+      containers: 
+        - name: spring
+          image: srinunuthi/spring:2
+          ports: 
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-svc
+spec:
+  type: LoadBalancer
+  selector:
+    app: spring
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
