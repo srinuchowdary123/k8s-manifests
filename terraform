@@ -1,0 +1,55 @@
+terraform {
+  required_providers {
+    aws = {
+      version = "~> 4.0"
+      source  = "hashicorp/aws"
+    }
+  }
+}
+
+provider "aws" {
+  region = var.Ntierregion
+}
+
+resource "aws_vpc" "ntiervpc" {
+  cidr_block = var.ntiervpcCidr
+
+  tags = {
+    Name = "NVPC"
+
+  }
+
+}
+
+resource "aws_subnet" "app1" {
+
+  vpc_id            = aws_vpc.ntiervpc.id
+  cidr_block        = var.napp1
+  availability_zone = "${var.Ntierregion}a"
+
+
+}
+
+resource "aws_subnet" "app2" {
+
+  vpc_id            = aws_vpc.ntiervpc.id
+  cidr_block        = var.napp2
+  availability_zone = "${var.Ntierregion}b"
+
+
+}
+
+resource "aws_subnet" "db1" {
+
+  vpc_id            = aws_vpc.ntiervpc.id
+  cidr_block        = var.ndb1
+  availability_zone = "${var.Ntierregion}a"
+
+}
+resource "aws_subnet" "db2" {
+
+  vpc_id            = aws_vpc.ntiervpc.id
+  cidr_block        = var.ndb2
+  availability_zone = "${var.Ntierregion}b"
+
+}
